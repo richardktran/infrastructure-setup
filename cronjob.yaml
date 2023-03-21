@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob
+spec:
+  suspend: false # set true to suspend cronjob
+  schedule: "*/1 * * * *" # run every minute
+  successfulJobsHistoryLimit: 5 # Number of successful jobs to keep
+  failedJobsHistoryLimit: 5 # Number of failed jobs to keep
+  concurrencyPolicy: Forbid # Allow, Replace
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: container-job
+            image: busybox
+            args:
+            - /bin/sh
+            - -c
+            - date; echo "Job in CronJob"
+          restartPolicy: Never # OnFailure, Always

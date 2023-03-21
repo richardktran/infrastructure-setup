@@ -1,0 +1,18 @@
+# Run a single job like seeder, migration, etc.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: run-job
+spec:
+  completions: 10 # Number of times to run the job
+  parallelism: 2 # Number of pods to run in parallel
+  backoffLimit: 10 # Number of retries, default is 6
+  activeDeadlineSeconds: 120 # Time limit for the job to run, if exceeded, the job is failed and the pods are deleted
+  template:
+    spec:
+      containers:
+      - name: sleep-container
+        image: centos:latest
+        command: ["sleep"]
+        args: ["30"]
+      restartPolicy: Never # OnFailure, Always
