@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nginx
-  labels:
+  labels: # Same as selector
     app: sample-app
 spec:
   clusterIP: None
@@ -10,21 +10,22 @@ spec:
   - port: 80
     name: web
   selector:
-    app: sample-app
+    app: sample-app # Same as labels in metadata of pod template
 ---
+# StatefulSet is used to manage stateful applications like databases
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: sample-statefulset
 spec:
   replicas: 3
-  selector:
+  selector: # Same as labels in pod template
     matchLabels:
       app: sample-app
   serviceName: nginx
   template:
     metadata:
-      labels:
+      labels: # Same as selector
         app: sample-app
     spec:
       containers:
@@ -33,14 +34,17 @@ spec:
         ports:
         - containerPort: 80
         volumeMounts:
-        - name: www
-          mountPath: /usr/share/nginx/html
-  volumeClaimTemplates:
+        - name: www # Same as volumeClaimTemplates.metadata.name
+          mountPath: /usr/share/nginx/html 
+  volumeClaimTemplates: # PersistentVolumeClaim is created for each replica
   - metadata:
-      name: www
+      name: www # Same as volumeMounts.name
     spec:
       resources:
         requests:
           storage: 1Gi
       accessModes:
       - ReadWriteOnce
+      # ReadWriteMany - multiple pods can read/write to the same volume
+      # ReadOnlyMany - multiple pods can read from the same volume
+      # ReadWriteOnce - only one pod can read/write to the volume

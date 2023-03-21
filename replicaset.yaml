@@ -5,12 +5,12 @@ metadata:
 spec:
   replicas: 3
   selector:
-    matchLabels:
+    matchLabels: # Same as labels in pod template
       app: nginx
       type: front-end
   template:
     metadata:
-      labels:
+      labels: # Same as selector
         app: nginx
         type: front-end
     spec:

@@ -4,14 +4,14 @@ metadata:
   name: deployment
 spec:
   replicas: 3
-  revisionHistoryLimit: 3
+  revisionHistoryLimit: 3 # Number of old ReplicaSets to retain to allow rollback
   selector:
-    matchLabels:
+    matchLabels: # Same as labels in pod template
       app: nginx
       env: prod
   template:
     metadata:
-      labels:
+      labels: # Same as selector
         app: nginx
         env: prod
     spec:
@@ -27,3 +27,5 @@ spec:
             memory: 256Mi
         ports:
         - containerPort: 80
+
+# Test this by delete a pod and see if it is recreated
