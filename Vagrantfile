@@ -1,17 +1,35 @@
+# Description: Vagrantfile for k8s cluster with 1 master and 2 workers
 Vagrant.configure("2") do |config|
-    # Nodes
-    NodeCount = 2
-    (1..NodeCount).each do |i|
-        config.vm.define "parallels-guest-vm-#{i}" do |vv|
+    # Master Nodes
+    MasterCount = 1
+    (1..MasterCount).each do |i|
+        config.vm.define "k8s-master-#{i}" do |vv|
             vv.vm.box = "bento/ubuntu-20.04-arm64"
             vv.vm.box_version = "202301.20.0"
-            vv.vm.hostname = "parallels-guest-vm-#{i}"
-            vv.vm.network "private_network", ip: "172.16.16.1#{i}"
+            vv.vm.hostname = "k8s-master-#{i}"
+            vv.vm.network "private_network", ip: "172.16.1.1#{i}"
 
             vv.vm.provider "parallels" do |vb|
-                vb.name = "parallels-guest-vm-#{i}"
+                vb.name = "k8s-master-#{i}"
                 vb.memory = 1024
-                vb.cpus = 1
+                vb.cpus = 2
+            end
+        end
+    end
+
+    # Worker Nodes
+    WorkerCount = 2
+    (1..WorkerCount).each do |i|
+        config.vm.define "k8s-worker-#{i}" do |vv|
+            vv.vm.box = "bento/ubuntu-20.04-arm64"
+            vv.vm.box_version = "202301.20.0"
+            vv.vm.hostname = "k8s-worker-#{i}"
+            vv.vm.network "private_network", ip: "172.16.2.1#{i}"
+
+            vv.vm.provider "parallels" do |vb|
+                vb.name = "k8s-worker-#{i}"
+                vb.memory = 1024
+                vb.cpus = 2
             end
         end
     end
