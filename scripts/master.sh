@@ -7,3 +7,6 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 # Setup Calico Network plugin
 curl https://raw.githubusercontent.com/projectcalico/calico/v3.25.1/manifests/calico.yaml -O
 kubectl apply -f calico.yaml
+
+# Generete kubeadm join command
+kubeadm token create --print-join-command

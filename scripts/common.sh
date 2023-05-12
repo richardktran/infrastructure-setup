@@ -14,19 +14,18 @@ echo \
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-#Install CRI for docker
-# https://github.com/Mirantis/cri-dockerd
 sudo apt-get install -y git wget
 
-git clone https://github.com/Mirantis/cri-dockerd.git
-
-###Install GO
+#Install GO (to build cri-dockerd)
 wget https://go.dev/dl/go1.20.4.linux-arm64.tar.gz
 sudo tar -C /usr/local -xzf go1.20.4.linux-arm64.tar.gz
 export PATH=$PATH:/usr/local/go/bin >> ~/.profile
 source ~/.profile
 go version
 
+#Install CRI for docker
+# https://github.com/Mirantis/cri-dockerd
+git clone https://github.com/Mirantis/cri-dockerd.git
 cd cri-dockerd
 mkdir bin
 go build -o bin/cri-dockerd
