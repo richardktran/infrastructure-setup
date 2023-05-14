@@ -10,3 +10,6 @@ kubectl apply -f calico.yaml
 
 # Generete kubeadm join command
 kubeadm token create --print-join-command
+
+# Copy config to jenkins user
+sudo cp config /var/lib/jenkins/.kube
