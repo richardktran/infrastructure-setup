@@ -13,3 +13,6 @@ sudo systemctl enable jenkins
 sudo systemctl start jenkins
 
 sudo usermod -aG docker jenkins
+
+# Get Jenkins password
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
