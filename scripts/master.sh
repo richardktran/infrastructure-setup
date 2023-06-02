@@ -17,3 +17,6 @@ kubeadm token create --print-join-command
 sudo mkdir /var/lib/jenkins/.kube
 sudo cp config /var/lib/jenkins/.kube
 sudo chown -R jenkins:jenkins /var/lib/jenkins/.kube
+
+
+# To reset kubeadm, run this command: sudo kubeadm reset --cri-socket=unix:///var/run/cri-dockerd.sock
